@@ -10,7 +10,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.stereotype.Service;
 import test.config.KafkaConfiguration;
 import test.entity.Employee;
-
+import io.confluent.kafka.serializers.json.*;
 import java.util.Properties;
 
 @Service
@@ -67,7 +67,10 @@ public class ProducerService {
         Properties properties = new Properties();
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConfiguration.BOOTSTRAP);
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
-        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+//        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaJsonSchemaSerializer.class.getName());
+        properties.setProperty(KafkaJsonSchemaSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, KafkaConfiguration.SHEMA_REGISTRY_URL);
+        properties.put(KafkaJsonSchemaSerializerConfig.AUTO_REGISTER_SCHEMAS, false);
         return properties;
     }
 }
