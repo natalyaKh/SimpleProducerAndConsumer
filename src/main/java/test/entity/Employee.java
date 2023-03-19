@@ -1,7 +1,10 @@
 package test.entity;
 
+import javax.validation.constraints.NotNull;
+
 public class Employee {
     String name;
+    @NotNull
     Integer age;
 
     @Override
